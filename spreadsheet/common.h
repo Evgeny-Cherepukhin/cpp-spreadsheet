@@ -7,6 +7,7 @@
 #include <string_view>
 #include <variant>
 #include <vector>
+#include <unordered_set>
 
 // Позиция ячейки. Индексация с нуля.
 struct Position {
@@ -25,6 +26,18 @@ struct Position {
     static const int MAX_COLS = 16384;
     static const Position NONE;
 };
+
+//  Рассчитывает Hash функцию для ячейки(позиции в таблице)
+class HashPosition {
+public:
+    size_t operator() (const Position& pos) const;
+
+private:
+    std::hash<int> i_hasher;
+};
+// Для быстрого поиска по таблице вводим Positions
+using Positions = std::unordered_set<Position, HashPosition>;
+
 
 struct Size {
     int rows = 0;
