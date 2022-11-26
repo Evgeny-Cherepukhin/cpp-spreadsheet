@@ -1,3 +1,4 @@
+// Яндекс-Практикум 2022. Дипломный проект по профессии "Разработчик С++". Черепухин Евгений Сергеевич 16 когорта.
 #include "cell.h"
 
 #include <cassert>
@@ -80,11 +81,18 @@ Cell::~Cell() = default;
 
 void Cell::Set(std::string text) {
     using namespace std::literals;
-    auto tmp = MakeImpl(std::move(text));
-    if (IsCyclic(tmp.get())) {
-        throw CircularDependencyException("This formula is cyclical"s);
+    if (text.empty()) {
+        impl_ = std::make_unique<EmptyImpl>();
     }
-    impl_ = std::move(tmp);
+    else {
+        auto tmp = MakeImpl(std::move(text));
+        if (IsCyclic(tmp.get())) {
+            throw CircularDependencyException("This formula is cyclical"s);
+        }
+        else {
+            impl_ = std::move(tmp);
+        }
+    }        
     Init();
 }
 
@@ -93,7 +101,7 @@ void Cell::Clear() {
 }
 
 Cell::Value Cell::GetValue() const {
-    //UpdateCache();
+    UpdateCache();
     return impl_->GetValue();
 }
 
@@ -135,8 +143,9 @@ Cell* Cell::MakeCell(Position pos) const {
     Cell* cell = dynamic_cast<Cell*>(sheet_.GetCell(pos));
     if (!cell) {
         sheet_.SetCell(pos, std::string());
-        //cell = MakeCell(pos);
+               
     }
+
     return cell;
 }
 
@@ -160,6 +169,7 @@ bool Cell::IsCyclicFormula(const Positions & dependents, Positions & checkeds) c
         if (cell == NULL) {
             return false;
         }
+        
         if (IsCyclicFormula(cell->dependents_, checkeds)) {
             return true;
         }
@@ -206,8 +216,7 @@ void Cell::InvalidAllDependentCaches(const Positions & effects, Positions & inva
         }
         Cell* cell = MakeCell(pos);
         cell->InvalidCache();
-        invalids.insert(pos);
-        //cell->InvalidAllDependentCaches(cell->effects_, invalids);
+        invalids.insert(pos);        
     }
 }
 

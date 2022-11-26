@@ -1,3 +1,4 @@
+// Яндекс-Практикум 2022. Дипломный проект по профессии "Разработчик С++". Черепухин Евгений Сергеевич 16 когорта.
 #include "sheet.h"
 
 #include <algorithm>
@@ -28,18 +29,17 @@ const CellInterface* Sheet::GetCell(Position pos) const {
 
 CellInterface* Sheet::GetCell(Position pos) {
     PositionCorrect(pos);
-    if (cells_.count(pos)== 0) {
-        return nullptr;
+    if (cells_.count(pos)) {
+        return cells_.at(pos).get();
     }
-    Cell* cell = cells_.at(pos).get();
-    if (!cell || (cell->IsEmpty() && !cell->IsReferenced())) {
+    else {
         return nullptr;
-    }
-    return cell;
+    }   
 }
 
 void Sheet::ClearCell(Position pos) {
-    SetCell(pos, std::string());
+    PositionCorrect(pos);
+    cells_.erase(pos);    
     positions_.erase(pos);
 }
 

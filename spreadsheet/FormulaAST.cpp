@@ -1,3 +1,4 @@
+// Яндекс-Практикум 2022. Дипломный проект по профессии "Разработчик С++". Черепухин Евгений Сергеевич 16 когорта.
 #include "FormulaAST.h"
 
 #include "FormulaBaseListener.h"
@@ -279,8 +280,6 @@ public:
 private:
     double value_;
 };
-
-
 
 class ParseASTListener final : public FormulaBaseListener {
 public:

@@ -1,3 +1,4 @@
+// Яндекс-Практикум 2022. Дипломный проект по профессии "Разработчик С++". Черепухин Евгений Сергеевич 16 когорта.
 #include "common.h"
 
 #include <cctype>
@@ -74,7 +75,6 @@ Position Position::FromString(std::string_view str) {
 
     return {row - 1, col - 1};
 }
-
 
 // Size
 

@@ -1,3 +1,4 @@
+// Яндекс-Практикум 2022. Дипломный проект по профессии "Разработчик С++". Черепухин Евгений Сергеевич 16 когорта.
 #include "formula.h"
 
 #include "FormulaAST.h"
@@ -69,7 +70,7 @@ public:
 
     std::vector<Position> GetReferencedCells() const override {
         std::vector<Position> result;        
-        // Убираем дублирование ячеек, для чего используем set
+        // Убираем дублирование ячеек, для чего используем контейнер set
         std::set<Position> positions_(ast_.GetCells().begin(), ast_.GetCells().end());
         for (const auto& pos : positions_) {
             result.push_back(pos);
@@ -83,5 +84,10 @@ private:
 }  // namespace
 
 std::unique_ptr<FormulaInterface> ParseFormula(std::string expression) {
-    return std::make_unique<Formula>(std::move(expression));
+    try {
+        return std::make_unique<Formula>(std::move(expression));
+    }
+    catch (const std::exception&) {
+        throw FormulaException("Formula parse error");
+    }   
 }

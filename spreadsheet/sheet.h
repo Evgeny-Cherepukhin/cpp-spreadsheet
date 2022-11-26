@@ -1,3 +1,4 @@
+// Яндекс-Практикум 2022. Дипломный проект по профессии "Разработчик С++". Черепухин Евгений Сергеевич 16 когорта.
 #pragma once
 
 #include "cell.h"
@@ -13,7 +14,6 @@
 #include <vector>
 
 class Cell;
-
 
 class Sheet : public SheetInterface {
 public:
@@ -49,8 +49,7 @@ private:
 
     Cells cells_;
 
-    Positions positions_;
-    
+    Positions positions_;    
 };
 
 template <typename Print>

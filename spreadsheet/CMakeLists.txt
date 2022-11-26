@@ -1,8 +1,10 @@
+# Яндекс-Практикум 2022. Курс "Разработчик С++". 
+# Файл сборки дипломного проекта Черепухина Евгения Сергеевича 16  когорта.
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
-project(spreadsheet)
+project(formulaAST)
 
 set(CMAKE_CXX_STANDARD 17)
-if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+if(MSVC)
   set(
     CMAKE_CXX_FLAGS_DEBUG
     "${CMAKE_CXX_FLAGS_DEBUG} /JMC"
@@ -15,7 +17,7 @@ else()
 endif()
 
 
-set(ANTLR_EXECUTABLE ${CMAKE_CURRENT_SOURCE_DIR}/antlr-4.7.2-complete.jar)
+set(ANTLR_EXECUTABLE ${CMAKE_CURRENT_SOURCE_DIR}/antlr-4.11.1-complete.jar)
 include(${CMAKE_CURRENT_SOURCE_DIR}/FindANTLR.cmake)
 
 add_definitions(
@@ -43,9 +45,12 @@ add_executable(
   spreadsheet
   ${ANTLR_FormulaParser_CXX_OUTPUTS}
   ${sources}
-)
+  )
 
 target_link_libraries(spreadsheet antlr4_static)
+if(MSVC)
+  target_compile_options(antlr4_static PRIVATE /W0)
+endif()
 
 install(
   TARGETS spreadsheet
@@ -53,4 +58,4 @@ install(
   EXPORT spreadsheet
 )
 
-set_directory_properties(PROPERTIES VS_STARTUP_PROJECT spreadsheet)
+set_directory_properties(PROPERTIES VS_STARTUP_PROJECT formulaAST)
